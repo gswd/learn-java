@@ -1,0 +1,4 @@
+user1 readOnly
+user2 readWrite \
+      create jmx.*,javax.management.timer.* \
+      unregister
