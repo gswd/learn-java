@@ -13,6 +13,7 @@
         <module>java-jedis</module>
         <module>java-regex</module>
         <module>java-mongo</module>
+        <module>java-design</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
