@@ -45,6 +45,7 @@ public class SampleCRUD {
 		/** findFirst **/
 		//If the collection is empty, the operation returns null.
 		Document myDoc = collection.find().first();
+
 		System.out.println(myDoc.toJson());
 
 		System.out.println("---------------");

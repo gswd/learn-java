@@ -210,6 +210,7 @@ public class BaseSample {
 		while (matcher1.find()) {
 			//此处也可以使用$1代替matcher1.group(1), 如果想替换为$符号，则需要转义
 			matcher1.appendReplacement(sb, matcher1.group(1));
+			System.out.println(sb.toString());
 		}
 		matcher1.appendTail(sb);
 
