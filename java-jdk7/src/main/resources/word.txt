@@ -1,0 +1,9 @@
+java
+consumer
+binary
+literal
+predicate
+supplier
+unary
+operator
+warehouse
