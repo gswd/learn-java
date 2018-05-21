@@ -15,6 +15,7 @@
         <module>java-mongo</module>
         <module>java-design</module>
         <module>java-jdk7</module>
+        <module>java-junit5</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
