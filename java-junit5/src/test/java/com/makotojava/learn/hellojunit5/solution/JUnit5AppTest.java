@@ -16,10 +16,7 @@ package com.makotojava.learn.hellojunit5.solution;
  * limitations under the License.
  */
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
 
@@ -33,8 +30,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +37,8 @@ import org.slf4j.LoggerFactory;
  * JUnit 5 (with JUnitPlatform.class)
  *
  */
-@Disabled
-@RunWith(JUnitPlatform.class)
+//@Disabled
+//@RunWith(JUnitPlatform.class)
 @DisplayName("Testing using JUnit 5")
 public class JUnit5AppTest {
 
@@ -53,13 +48,13 @@ public class JUnit5AppTest {
 
 	@BeforeAll
 	public static void init() {
-		// Do something before ANY test is run in this class
+		// 被注解的（静态）方法将在测试开始前执行一次
 		log.info("@BeforeAll: init()");
 	}
 
 	@AfterAll
 	public static void done() {
-		// Do something after ALL tests in this class are run
+		// 被注解的（静态）方法将在测试结束后执行一次
 		log.info("@AfterAll: done()");
 	}
 
@@ -81,6 +76,30 @@ public class JUnit5AppTest {
 		log.info("As written, this test will always pass!");
 		assertEquals(4, (2 + 2));
 	}
+
+	@Test
+	@DisplayName("Dummy test")
+	void dummyTest(){
+		int expected = 4;
+		int actual = 2 + 2;
+		assertEquals(expected, actual, "INCONCEIVABLE");
+
+		Object nullValue = null;
+		assertFalse(nullValue != null);
+		assertNull(nullValue);
+		assertNotNull("A String", "INCONCEIVABLE");
+		assertTrue(nullValue == null);
+
+		//assertAll 它包含的所有断言都会执行，即使一个或多个断言失败也是如此。
+		assertAll(
+				"Assert All of these",
+				() -> assertEquals(expected, actual, "INCONCEIVABLE!"),
+				() -> assertFalse(nullValue != null),
+				() -> assertNull(nullValue),
+				() -> assertNotNull("A String", "INCONCEIVABLE!"),
+				() -> assertTrue(nullValue == null));
+	}
+
 	@Test
 	@Disabled
 	@DisplayName("A disabled test")
@@ -203,19 +222,26 @@ public class JUnit5AppTest {
 					});
 		}
 
+		/**
+		 * 前置条件 (Assumption) 与断言类似，但assumeTrue条件必须为 true，否则跳过该测试. 不会导致构建失败.
+		 *
+		 */
 		@Test
 		@DisplayName("This test is only run on Fridays")
 		public void testAdd_OnlyOnFriday() {
 			assertNotNull(classUnderTest);
 			LocalDateTime ldt = LocalDateTime.now();
 			assumeTrue(ldt.getDayOfWeek().getValue() == 5, "Test skipped... it's not Friday!");
-			assumeTrue(ldt.getDayOfWeek().getValue() == 5);
+			//assumeTrue(ldt.getDayOfWeek().getValue() == 5);
 			long[] operands = {1, 2, 3, 4, 5};
 			long expectedSum = 15;
 			long actualSum = classUnderTest.add(operands);
 			assertEquals(expectedSum, actualSum);
 		}
 
+		/**
+		 * 无论 assumingThat() 中的前置条件成立与否，都会执行 lambda 表达式后的所有代码
+		 */
 		@Test
 		@DisplayName("This test is only run on Fridays (with lambda)")
 		public void testAdd_OnlyOnFriday_WithLambda() {
@@ -228,6 +254,8 @@ public class JUnit5AppTest {
 						long actualSum = classUnderTest.add(operands);
 						assertEquals(expectedSum, actualSum);
 					});
+
+			System.out.println("&&&&&&&&& -> other assert.");
 		}
 
 	}
