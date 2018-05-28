@@ -22,6 +22,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.2.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
 
@@ -37,5 +48,20 @@
 
 
         </plugins>
+
+        <!--<pluginManagement>-->
+            <!--<plugins>-->
+                <!--<plugin>-->
+                    <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                    <!--<version>2.21.0</version>-->
+                    <!--<dependencies>-->
+                        <!--<dependency>-->
+                            <!--<groupId>org.junit.platform</groupId>-->
+                            <!--<artifactId>junit-platform-surefire-provider</artifactId>-->
+                        <!--</dependency>-->
+                    <!--</dependencies>-->
+                <!--</plugin>-->
+            <!--</plugins>-->
+        <!--</pluginManagement>-->
     </build>
 </project>
