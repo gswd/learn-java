@@ -1,11 +1,15 @@
 package com.hm707.beans.introspector;
 
+import java.util.Date;
+
 public class UserInfo {
 
 	private long userId;
 	private String userName;
 	private int age;
 	private String emailAddress;
+
+	private Date birthday;
 
 	public long getUserId() {
 		return userId;
@@ -39,4 +43,22 @@ public class UserInfo {
 		this.emailAddress = emailAddress;
 	}
 
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("UserInfo{");
+		sb.append("userId=").append(userId);
+		sb.append(", userName='").append(userName).append('\'');
+		sb.append(", age=").append(age);
+		sb.append(", emailAddress='").append(emailAddress).append('\'');
+		sb.append('}');
+		return sb.toString();
+	}
 }
