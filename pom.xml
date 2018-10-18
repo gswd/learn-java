@@ -19,6 +19,7 @@
         <module>java-beans</module>
         <module>java-apache-commons</module>
         <module>java-jvm</module>
+        <module>java-okhttp</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
