@@ -3,81 +3,69 @@ package com.hm707.cli;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * user guide : http://commons.apache.org/proper/commons-cli/introduction.html
+ */
 public class HelloCli {
-	public static void main(String[] args) {
-		Option help = new Option("help", "print this message");
-		Option projecthelp = new Option("projecthelp", "print project help information");
-		Option version = new Option("version", "print the version information and exit");
-		Option quiet = new Option("quiet", "be extra quiet");
-		Option verbose = new Option("verbose", "be extra verbose");
-		Option debug = new Option("debug", "print debugging information");
-		Option emacs = new Option("emacs",
-				"produce logging information without adornments");
+  public static void main(String[] args) {
 
-		Option logfile   = OptionBuilder.withArgName( "file" )
-				.hasArg()
-				.withDescription(  "use given file for log" )
-				.create( "logfile" );
+    //definition Option
+    Option help = new Option("help", "print this message");
+    Option quiet = new Option("quiet", "be extra quiet");
 
-		Option logger    = OptionBuilder.withArgName( "classname" )
-				.hasArg()
-				.withDescription( "the class which it to perform "
-						+ "logging" )
-				.create( "logger" );
+    Option logfile = Option.builder("logfile").argName("file").hasArg().desc("use give file for log").build();
 
-		Option listener  = OptionBuilder.withArgName( "classname" )
-				.hasArg()
-				.withDescription( "add an instance of class as "
-						+ "a project listener" )
-				.create( "listener");
+    Option logger = Option.builder("logger").argName("className").hasArg().desc(
+      "the class which it to perform logging").build();
 
-		Option buildfile = OptionBuilder.withArgName( "file" )
-				.hasArg()
-				.withDescription(  "use given buildfile" )
-				.create( "buildfile");
+    Option property = Option.builder("D").hasArgs().valueSeparator().desc("use value for given property").build();
 
-		Option find      = OptionBuilder.withArgName( "file" )
-				.hasArg()
-				.withDescription( "search for buildfile towards the "
-						+ "root of the filesystem and use it" )
-				.create( "find" );
+    Options options = new Options();
+    options.addOption(help);
+    options.addOption(quiet);
+    options.addOption(logfile);
+    options.addOption(logger);
+    options.addOption(property);
 
-		Option property  = OptionBuilder.withArgName( "property=value" )
-				.hasArgs(2)
-				.withValueSeparator()
-				.withDescription( "use value for given property" )
-				.create( "D" );
+    // create the parser
+    CommandLineParser parser = new DefaultParser();
+    try {
+      // parse the command line arguments
+      CommandLine line = parser.parse(options, args);
+      if (line.hasOption("help")) {
+        System.out.println("~~~~~help~~~~~~");
+        System.out.println(help.getDescription());
 
-		Options options = new Options();
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp( "ant", options);
 
-		options.addOption( help );
-		options.addOption( projecthelp );
-		options.addOption( version );
-		options.addOption( quiet );
-		options.addOption( verbose );
-		options.addOption( debug );
-		options.addOption( emacs );
-		options.addOption( logfile );
-		options.addOption( logger );
-		options.addOption( listener );
-		options.addOption( buildfile );
-		options.addOption( find );
-		options.addOption( property );
-		// create the parser
-		CommandLineParser parser = new DefaultParser();
-		try {
-			// parse the command line arguments
-			CommandLine line = parser.parse( options, args );
-		}
-		catch( ParseException exp ) {
-			// oops, something went wrong
-			System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
-		}
-	}
+        System.out.println("--------------------");
+
+        formatter.printHelp( "ant", options, true);
+
+        System.out.println("-----------------------");
+      }
+
+      if (line.hasOption("logfile")) {
+        System.out.println("[logfile] - " + line.getOptionValue("logfile"));
+      }
+
+      if (line.hasOption("D")) {
+        System.out.println("[property] - key : " + line.getOptionValues("D")[0]);
+        System.out.println("[property] - value : " + line.getOptionValues("D")[0]);
+      }
+    } catch (ParseException exp) {
+      // oops, something went wrong
+      System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+    }
+
+
+  }
 
 }
