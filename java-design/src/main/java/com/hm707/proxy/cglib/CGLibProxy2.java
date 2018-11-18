@@ -6,7 +6,16 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-public class CGLibProxy1 implements MethodInterceptor {
+public class CGLibProxy2 implements MethodInterceptor {
+
+  private static CGLibProxy2 instance = new CGLibProxy2();
+
+  private CGLibProxy2() {
+  }
+
+  public static CGLibProxy2 getInstance() {
+    return instance;
+  }
 
   @SuppressWarnings("unchecked")
   public <T>  T getProxy(Class<T> cls) {
