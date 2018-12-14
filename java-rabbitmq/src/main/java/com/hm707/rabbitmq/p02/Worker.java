@@ -19,8 +19,10 @@ public class Worker {
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 
-		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		boolean durable = true;
+		channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
 		System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+		channel.basicQos(1);
 
 		DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 			String message = new String(delivery.getBody(), "UTF-8");
@@ -29,6 +31,8 @@ public class Worker {
 				doWork(message);
 			} finally {
 				System.out.println(" [x] Done");
+				//必须使用与消息相同的channel发送ack
+				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 			}
 		};
 
