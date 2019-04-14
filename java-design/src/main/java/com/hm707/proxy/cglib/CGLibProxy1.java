@@ -14,9 +14,9 @@ public class CGLibProxy1 implements MethodInterceptor {
   }
 
   @Override
-  public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+  public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
     System.out.println("proxy1 before()");
-    Object result = methodProxy.invokeSuper(o, objects);
+    Object result = methodProxy.invokeSuper(o, args);
     System.out.println("proxy1 after()");
     return result;
   }

@@ -10,5 +10,6 @@ public class Test2 {
 
     Hello helloProxy = proxy2.getProxy();
     helloProxy.say("Jerry");
+    helloProxy.sing("ba ba ba ba");
   }
 }
