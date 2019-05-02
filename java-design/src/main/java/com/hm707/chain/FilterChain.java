@@ -18,6 +18,6 @@ public class FilterChain implements Filter {
             return;
         Filter f = filters.get(index);
         index++;
-        f.doFilter(request, response, chain);
+        f.doFilter(request, response, this);
     }  
 }

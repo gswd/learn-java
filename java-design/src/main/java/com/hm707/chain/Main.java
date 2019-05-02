@@ -10,10 +10,10 @@ public class Main {
         response.setResponseStr("response");
 
         FilterChain fc = new FilterChain();
-        fc.addFilter(new HTMLFilter()).addFilter(new SesitiveFilter());
+        fc.addFilter(new HTMLFilter());
 
         FilterChain fc2 = new FilterChain();
-        fc2.addFilter(new FaceFilter());
+        fc2.addFilter(new FaceFilter()).addFilter(new SensitiveFilter());
 
         fc.addFilter(fc2);
         fc.doFilter(request, response, fc);
