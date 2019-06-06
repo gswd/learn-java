@@ -14,7 +14,7 @@ public class ConnectAsync {
 		sc.connect(new InetSocketAddress(host, port));
 
 
-		while (!sc.finishConnect()) {
+		while (!sc.finishConnect()) {//执行finishConnect()后 isConnected() 才会被更新
 			System.out.println("not connect yet.");
 		}
 

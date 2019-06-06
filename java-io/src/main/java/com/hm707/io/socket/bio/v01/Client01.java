@@ -20,6 +20,8 @@ public class Client01 {
 
 		String line = bufferedReader.readLine();
 		System.out.println("client accept : " + line);
+		String line2 = bufferedReader.readLine();
+		System.out.println("client accept2 : " + line2);
 
 		socket.close();
 	}
