@@ -1,11 +1,9 @@
 package com.hm707.io.socket.security;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.file.Paths;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
