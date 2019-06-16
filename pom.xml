@@ -23,6 +23,7 @@
         <module>java-rabbitmq</module>
         <module>java-data-structure</module>
         <module>java-io</module>
+        <module>java-netty</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
