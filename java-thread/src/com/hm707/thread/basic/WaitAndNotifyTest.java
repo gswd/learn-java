@@ -2,17 +2,30 @@ package com.hm707.thread.basic;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class WaitAndNotifyTest {
 
 	public static void main(String[] args) throws InterruptedException {
 		//test01();
 
+		//test02();
+
 		//TestProducerAndConsumer();
 
-		atSameTimeTest();
+		//线程协作 ： 同时开始
+		//atSameTimeTest();
+
+		//线程结束 ： 使用协作对象
+		//testLatch(); // 模拟 CountDownLatch
+
+		//线程结束 ： 集合点
+		assemblePointTest(); // 模拟 CyclicBarrier
+
 	}
 
+	// ---------- test01 ---------
 	private static class T01 extends Thread {
 		private volatile boolean fire = false;
 
@@ -41,6 +54,49 @@ public class WaitAndNotifyTest {
 		Thread.sleep(1000);
 		System.out.println("fire");
 		t01.fire();
+	}
+
+	// ---------- test02 ---------
+	static class T02Thread extends Thread {
+		Object lock;
+
+		public T02Thread(Object lock) {
+			this.lock = lock;
+
+		}
+
+		@Override
+		public void run() {
+			System.out.println("[" + Thread.currentThread().getName() + "] [task] [begin] ");
+
+			try {
+				synchronized (lock) {
+					System.out.println("[" + Thread.currentThread().getName() + "] lock object is : " + lock);
+					lock.wait();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("[" + Thread.currentThread().getName() + "] [task] [end]");
+		}
+	}
+
+	public static void test02() throws InterruptedException {
+		Object lock = new Object();
+		T02Thread t1 = new T02Thread(lock);
+		T02Thread t2 = new T02Thread(lock);
+		//第三个线程不能被唤醒，因为使用的不是同一个锁对象
+		T02Thread t3 = new T02Thread(new Object());
+		t1.start();
+		t2.start();
+		t3.start();
+
+		TimeUnit.SECONDS.sleep(1);
+
+		synchronized (lock) {
+			lock.notifyAll();
+		}
 	}
 
 	// ---------- producer & Consumer ---------
@@ -121,7 +177,6 @@ public class WaitAndNotifyTest {
 		new Consumer(queue).start();
 	}
 
-
 	// ---------- 同时开始 -----------
 	static class FireFlag {
 		private volatile boolean fired = false;
@@ -173,4 +228,125 @@ public class WaitAndNotifyTest {
 		fireFlag.fire();
 	}
 
+	// ---------- test latch -----------
+	static class MyLatch{
+		private int count;
+
+		public MyLatch(int count) {
+			this.count = count;
+		}
+
+		public synchronized void await() throws InterruptedException {
+			while (count > 0) {
+				wait();
+			}
+		}
+
+		public synchronized void countDown() {
+			count--;
+
+			if (count <= 0) {
+				notifyAll();
+			}
+		}
+	}
+
+	static class worker implements Runnable {
+		MyLatch latch;
+
+		public worker(MyLatch latch) {
+			this.latch = latch;
+		}
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep((int)(Math.random() * 1000));
+				System.out.println("[worker] ["+Thread.currentThread().getName()+"] -> work done~");
+				this.latch.countDown();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static void testLatch() throws InterruptedException {
+		int workerNum = 10;
+		MyLatch latch = new MyLatch(workerNum);
+
+		for (int i = 0; i < workerNum; i++) {
+			Thread t = new Thread(new worker(latch));
+			t.start();
+		}
+
+		latch.await();
+
+		System.out.println("[latch] -> collect worker results");
+	}
+
+
+	// ---------- Assemble Point -----------
+
+	/**
+	 * 各个线程先是分头行动，然后各自到达一个集合点，在集合点需要集齐所有线程，交换数据，然后再进行下一步动作.
+	 */
+	static class AssemblePoint {
+		/** 未到集合点的线程个数 初始值为子线程个数*/
+		private int n;
+
+		public AssemblePoint(int n) {
+			this.n = n;
+		}
+
+		/**
+		 * 每个线程到达集合点后将 n--
+		 *   如果不为0，表示还有别的线程未到，进行等待，
+		 *   如果变为0，表示自己是最后一个到的，调用notifyAll唤醒所有线程。
+		 */
+		public synchronized void await() throws InterruptedException {
+			if (n > 0) {
+				n--;
+				if (n == 0) {
+					notifyAll();
+				} else {
+					while (n != 0) {
+						wait();
+					}
+				}
+			}
+		}
+	}
+
+	static class Tourist extends Thread {
+		AssemblePoint ap;
+
+		public Tourist(AssemblePoint ap) {
+			this.ap = ap;
+		}
+
+		@Override
+		public void run() {
+			try {
+				// 模拟先各自独立运行
+				System.out.println("[" + Thread.currentThread().getName() + "] [start]");
+				Thread.sleep((int) (Math.random() * 1000));
+
+				// 集合
+				ap.await();
+				System.out.println("[" + Thread.currentThread().getName() + "] [arrived]");
+				// ... 集合后执行其他操作
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+
+	private static void assemblePointTest() {
+		int num = 3;
+		Tourist[] threads = new Tourist[num];
+		AssemblePoint ap = new AssemblePoint(num);
+		for (int i = 0; i < num; i++) {
+			threads[i] = new Tourist(ap);
+			threads[i].start();
+		}
+	}
 }
