@@ -61,7 +61,7 @@ class MyExecutor {
 
 	}
 
-	public <V> MyFuture<V> exexute(final Callable<V> task) {
+	public <V> MyFuture<V> execute(final Callable<V> task) {
 		final Object lock = new Object();
 		final ExecuteThread<V> thread = new ExecuteThread<>(task, lock);
 		thread.start();
@@ -101,7 +101,7 @@ class MyExecutor {
 			}
 		};
 
-		MyFuture<Integer> future = executor.exexute(subTask);
+		MyFuture<Integer> future = executor.execute(subTask);
 
 		try {
 			// 获取异步调用的结果
