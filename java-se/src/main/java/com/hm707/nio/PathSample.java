@@ -59,6 +59,7 @@ public class PathSample {
 
 		Path path = Paths.get("d:\\Book");
 		System.out.println(path.toAbsolutePath());
+		System.out.println(path.toString());
 
 		System.out.println("=========file2Path============");
 		file2Path();

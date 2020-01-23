@@ -14,7 +14,7 @@
         <module>java-regex</module>
         <module>java-mongo</module>
         <module>java-design</module>
-        <module>java-jdk7</module>
+        <module>java-se</module>
         <module>java-junit5</module>
         <module>java-beans</module>
         <module>java-apache-commons</module>
