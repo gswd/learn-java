@@ -25,6 +25,7 @@
         <module>java-io</module>
         <module>java-netty</module>
         <module>java-thread</module>
+        <module>java-juc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
