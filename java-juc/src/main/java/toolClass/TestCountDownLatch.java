@@ -1,3 +1,5 @@
+package toolClass;
+
 import java.util.concurrent.CountDownLatch;
 
 /**
