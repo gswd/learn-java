@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
+  <name>测试插件</name>
   <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="support@123.com" url="http://www.123.com">123</vendor>
 
   <description><![CDATA[
       Enter short description for your plugin here.<br>
@@ -33,7 +33,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <applicationService serviceInterface="MyPackage.MyCounter" serviceImplementation="MyPackage.MyCounter"/>
-    <toolWindow id="Sample Calendar" secondary="true" icon="/myToolWindow/plus.png" anchor="right" factoryClass="myToolWindow.MyToolWindowFactory"/>
+<!--    <toolWindow id="Sample Calendar" secondary="true" icon="/myToolWindow/plus.png" anchor="right" factoryClass="myToolWindow.MyToolWindowFactory"/>-->
   </extensions>
 
   <actions>
