@@ -18,7 +18,7 @@ public class SelectSockets02 {
 	}
 
 	@SuppressWarnings("Duplicates")
-	private void go() throws IOException{
+	private void go() throws IOException {
 		ServerSocketChannel serverSocketChannel = ServerSocketChannel.open().bind(new InetSocketAddress(PORT));
 		serverSocketChannel.configureBlocking(false);
 
@@ -57,15 +57,23 @@ public class SelectSockets02 {
 		SocketChannel socketChannel = (SocketChannel)selectionKey.channel();
 		ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
 
-		while (socketChannel.read(buffer) != -1) {
-			buffer.flip();
-			while (buffer.hasRemaining()) {
+		while (true) {
+			int count = socketChannel.read(buffer);
+			if (count > 0) {
+				buffer.flip();
+				while (buffer.hasRemaining()) {
 
-				socketChannel.write(buffer);
+					socketChannel.write(buffer);
 
+				}
+
+				buffer.clear();
+			} else if (count == 0) {
+				return;
+			} else {
+				socketChannel.close();
 			}
 
-			buffer.clear();
 		}
 
 	}
