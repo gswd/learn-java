@@ -2,6 +2,7 @@ package netty.s01;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -31,6 +32,18 @@ public class NettyServer {
             System.out.println("Server is ready ...");
 
             ChannelFuture cf = bootstrap.bind(9999).sync();
+
+            cf.addListener(new ChannelFutureListener(){
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    System.out.println(future == cf);//ture
+
+                    if (future.isSuccess()) {
+                        System.out.println("绑定端口成功");
+                    }
+                }
+            });
+
 
             cf.channel().closeFuture().sync();
         } finally {
