@@ -1,4 +1,34 @@
 syntax="proto3";
-option java_outer_classname = "studentPOJO";
+//package netty.protobuf;
+option optimize_for=SPEED;
+option java_outer_classname = "StudentPOJO";//生成的外部类名，也是文件名
+option java_package="netty.protobuf";
+
+//可以通过message管理其他message
+message MyMessage{
+    enum DataType{
+        //enum的编号从0开始
+        StudentType = 0;
+        WorkerType = 1;
+    }
+
+    DataType data_type = 1;
+
+    //表示每次枚举类型最多只能出现其中一个
+    oneof dataBody{
+        Student student = 2;
+        Worker worker = 3;
+    }
+}
+
+message Student{ //在StudentPOJO外部类生成一个内部累 Student 它是真正发送的POJO对象
+    int32 id = 1; //1表示属性的序号，不是值
+    string name = 2;
+}
+
+message Worker{
+    string name = 1;
+    int32 age = 2;
+}
 
 
