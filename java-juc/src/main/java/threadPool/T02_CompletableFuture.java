@@ -1,4 +1,4 @@
-package threadPoll;
+package threadPool;
 
 import java.io.IOException;
 import java.util.Random;
