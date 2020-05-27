@@ -3,6 +3,7 @@ package dht;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramChannel;
@@ -17,6 +18,7 @@ public class T01_ping {
 			Bootstrap bootstrap = new Bootstrap();
 			bootstrap.group(workerGroup)
 				.channel(NioDatagramChannel.class)
+				.option(ChannelOption.SO_BROADCAST, true)
 				.handler(new ChannelInitializer<DatagramChannel>() {
 
 					@Override
@@ -27,8 +29,12 @@ public class T01_ping {
 
 					}
 				});
+
 			ChannelFuture future = bootstrap.bind(1234).sync();
-			future.channel().closeFuture().sync();
+
+			if (!future.channel().closeFuture().await(50000)) {
+				System.err.println("request timed out.");
+			}
 		} finally {
 
 			workerGroup.shutdownGracefully();
