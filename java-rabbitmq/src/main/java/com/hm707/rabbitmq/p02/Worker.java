@@ -9,7 +9,7 @@ import com.rabbitmq.client.DeliverCallback;
 
 public class Worker {
 	private final static String QUEUE_NAME = "hello";
-	private final static String host = "192.168.37.100";
+	private final static String host = "192.168.37.102";
 
 	public static void main(String[] args) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
@@ -30,20 +30,20 @@ public class Worker {
 			try {
 				doWork(message);
 			} finally {
-				System.out.println(" [x] Done");
+				System.out.println(" [x] Done, delivery.getEnvelope().getDeliveryTag() :  " + delivery.getEnvelope().getDeliveryTag());
 				//必须使用与消息相同的channel发送ack
 				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 			}
 		};
 
-		boolean autoAck = true;
+		boolean autoAck = false;
 		channel.basicConsume(QUEUE_NAME, autoAck, deliverCallback, consumerTag -> { });
 	}
 
 	private static void doWork(String task) {
 
 		for (char ch: task.toCharArray()) {
-			if (ch == '.') {
+			if (ch == '-') {
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {

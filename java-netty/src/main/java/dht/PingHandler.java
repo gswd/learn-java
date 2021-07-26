@@ -17,7 +17,8 @@ import io.netty.util.internal.SocketUtils;
 
 public class PingHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 
-	private static final String host = "dht.transmissionbt.com";
+//	private static final String host = "dht.transmissionbt.com";
+	private static final String host = "127.0.0.1";
 //	private static final String host = "10.34.135.96";
 	private String a = "afdf1979e105b0d8989eee4bfc805a0ce76f65b0";
 	private String b = "";
@@ -26,13 +27,13 @@ public class PingHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //		String msg = "d1:ad2:id20:xxxxxxxxxxxxxxxxxxxe1:q4:ping1:t4:tttt1:y1:qe";
-		String msg = "d1:ad2:id20:ad1bc97bb68c6e3d1a036:target20:ad1bc97bb68c6e3d1a03e1:q9:find_node1:t4:12341:y1:qe";
-		ByteBuf dataBuf = Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8);
-
-		System.out.println(InetAddress.getLocalHost());
-		DatagramPacket datagramPacket = new DatagramPacket(dataBuf, new InetSocketAddress(host, port));
-
-		ctx.writeAndFlush(datagramPacket).sync();
+//		String msg = "d1:ad2:id20:ad1bc97bb68c6e3d1a036:target20:ad1bc97bb68c6e3d1a03e1:q9:find_node1:t4:12341:y1:qe";
+//		ByteBuf dataBuf = Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8);
+//
+//		System.out.println(InetAddress.getLocalHost());
+//		DatagramPacket datagramPacket = new DatagramPacket(dataBuf, new InetSocketAddress(host, port));
+//
+//		ctx.writeAndFlush(datagramPacket).sync();
 	}
 
 	@Override
