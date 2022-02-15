@@ -36,6 +36,18 @@
             <version>1.2.67</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.hm707</groupId>
+            <artifactId>java-spi</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hm707</groupId>
+            <artifactId>java-spi-provider</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>

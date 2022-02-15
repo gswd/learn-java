@@ -12,6 +12,12 @@ import java.util.regex.Pattern;
  */
 public class Test {
 	public static void main(String[] args) throws URISyntaxException {
+
+		System.out.println("\\1");
+		System.out.println("\\d".matches("^(\\\\d)"));
+		Pattern p = Pattern.compile("^(\\\\d)");
+		System.out.println(p.pattern());
+
 		//String text = "2017-05-22(戛纳电影节)/2017-10-06(中国大陆)";
 		//
 		//String patternString1 = "(中国)(大陆|香港|台湾)";

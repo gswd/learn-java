@@ -15,6 +15,7 @@ public class TestYearMonth {
 		System.out.println(now.getMonthValue());
 
 		YearMonth ym1 = YearMonth.now();
+		System.out.println(ym1);
 		System.out.println(ym1.format(DateTimeFormatter.ofPattern("yyyyMM")));
 
 		YearMonth ym = YearMonth.now().minusMonths(1);

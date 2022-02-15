@@ -29,6 +29,8 @@
         <module>java-jmh</module>
         <module>java-disruptor</module>
         <module>java-jwt</module>
+        <module>java-spi</module>
+        <module>java-spi-provider</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

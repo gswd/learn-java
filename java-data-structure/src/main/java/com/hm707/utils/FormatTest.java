@@ -15,8 +15,13 @@ public class FormatTest {
 		DecimalFormat format1 = new DecimalFormat("#,###");
 
 		String result1 = format1.format(Long.valueOf("10000"));
-
-
 		System.out.println(result1);
+
+		System.out.println("----------");
+
+		DecimalFormat numberFormat = new DecimalFormat("#,###.##");
+		String result2 = numberFormat.format(10000000.0100);
+		System.out.println(result2);
+
 	}
 }
